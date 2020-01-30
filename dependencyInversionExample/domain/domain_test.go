@@ -1,8 +1,8 @@
 package domain_test
 
 import (
-	"github.com/berlin-ab/golang-scratch-pad/domain"
-	"github.com/berlin-ab/golang-scratch-pad/implementation"
+	"github.com/berlin-ab/golang-scratch-pad/dependencyInversionExample/domain"
+	"github.com/berlin-ab/golang-scratch-pad/dependencyInversionExample/implementation"
 	"testing"
 )
 

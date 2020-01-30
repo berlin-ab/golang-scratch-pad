@@ -1,6 +1,6 @@
 package implementation
 
-import domain "github.com/berlin-ab/golang-scratch-pad/domain"
+import domain "github.com/berlin-ab/golang-scratch-pad/dependencyInversionExample/domain"
 
 type userRepositoryData struct {
 }
