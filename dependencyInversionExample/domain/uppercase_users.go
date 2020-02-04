@@ -14,18 +14,31 @@ type UserRepository interface {
 	GetUsers(a chan<- []User, b chan<- error)
 }
 
-func UpperCaseUsers(userRepository UserRepository) ([]User, error) {
-	success := make(chan []User, 1)
-	error := make(chan error, 1)
+func UpperCaseUsers(userRepositories []UserRepository) ([]User, error) {
+	success := make(chan []User, len(userRepositories))
+	errorChannel := make(chan error, len(userRepositories))
 
-	userRepository.GetUsers(success, error)
+	for _, userRepository := range userRepositories {
+		userRepository.GetUsers(success, errorChannel)
+	}
 
-	select {
-	case result := <-success:
-		return transformUserNames(result), nil
-	case <-error:
+	var users []User
+	var errs []error
+
+	for range userRepositories {
+		select {
+		case result := <-success:
+			users = append(users, result...)
+		case err := <-errorChannel:
+			errs = append(errs, err)
+		}
+	}
+
+	if len(errs) > 0 {
 		return nil, buildFailure()
 	}
+
+	return transformUserNames(users), nil
 }
 
 func transformUserNames(users []User) []User {

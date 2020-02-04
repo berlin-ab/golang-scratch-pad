@@ -1,6 +1,8 @@
 package implementation
 
-import domain "github.com/berlin-ab/golang-scratch-pad/dependencyInversionExample/domain"
+import (
+	domain "github.com/berlin-ab/golang-scratch-pad/dependencyInversionExample/domain"
+)
 
 type userRepositoryData struct {
 }
@@ -9,9 +11,9 @@ func NewUserRepository() *userRepositoryData {
 	return &userRepositoryData{}
 }
 
-func (client *userRepositoryData) GetUsers(success chan<- []domain.User, error chan<- error) {
+func (client *userRepositoryData) GetUsers(successChannel chan<- []domain.User, errorChannel chan<- error) {
 	go func() {
-		success <- []domain.User{
+		successChannel <- []domain.User{
 			{"Joe"},
 			{"Jack"},
 		}

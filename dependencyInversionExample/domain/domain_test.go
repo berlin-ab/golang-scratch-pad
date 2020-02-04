@@ -9,7 +9,8 @@ import (
 func TestExample(t *testing.T) {
 	t.Run("async stuff", func(t *testing.T) {
 		userRepository := implementation.NewUserRepository()
-		users, _ := domain.UpperCaseUsers(userRepository)
+		otherUserRepository := implementation.NewUserRepository()
+		users, _ := domain.UpperCaseUsers([]domain.UserRepository{userRepository, otherUserRepository})
 
 		if users[0].Name != "JOE" {
 			t.Errorf("expected first user to be JOE, got %v", users[0].Name)
@@ -17,6 +18,14 @@ func TestExample(t *testing.T) {
 
 		if users[1].Name != "JACK" {
 			t.Errorf("expected second user to be JACK, got %v", users[1].Name)
+		}
+
+		if users[2].Name != "JOE" {
+			t.Errorf("expected first user to be JOE, got %v", users[2].Name)
+		}
+
+		if users[3].Name != "JACK" {
+			t.Errorf("expected second user to be JACK, got %v", users[3].Name)
 		}
 	})
 }
